@@ -4,10 +4,17 @@
 		<%=@blog_post.title %>
 	</div>
 	<div class="panel-body">
-		<p>by <%= @blog_post.author %></p>
+  by <strong><%= @blog_post.user.username %></strong> 
 		<p><%= @blog_post.blog_entry %></p>
 	</div>
 	<p><%= @blog_post.created_at.strftime('%m/%d/%Y at %I:%M%p') %></p>
+	<%if current_user.id == @blog_post.user.id %>
+	
+		<p>
+			<%= link_to 'Edit', edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
+          <%= link_to 'Destroy', @blog_post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        
+        <% end %>
 </div>
 
 <div class= "panel panel-success">
@@ -18,22 +25,24 @@
 		<%= render 'comments/form' %>
 	</div>
 </div>
-
-<div class="panel panel-default">
+<div class = "panel panel-default">
 	<div class="panel-header">
-		<h4>Comments</h4>
+		<h2>Comments</h2>
 	</div>
-	
+
 	<% @blog_post.comments.each do |comment| %>
-	<div class="panel-body">
-	<p>
-<%= comment.created_at.strftime('%m/%d/%Y at %I:%M%p') %>
-</p>
-		<p><strong><%= comment.author %></strong> said: </p>
+  <div class="panel panel-success">
+    <div class="panel-body">
+    <p>
+	<%= comment.created_at.strftime('%m/%d/%Y at %I:%M%p') %>
+	</p>
+     <p><strong><%= comment.user.username %></strong> said:</p>
+     
 		<p><%= comment.comment_entry %></p>
 	</div>
+  </div>
 <% end %>
-
+</div>
 <div>
 <%= link_to 'Back', blog_posts_path %>
 </div>

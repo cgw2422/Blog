@@ -73,5 +73,10 @@ class BlogPostsController < ApplicationController
       params.require(:blog_post).permit(:title, :author, :blog_entry, :user_id)
     end
 
-   
+    def your_posts
+    end
+
+    def user_posts
+      @user = User.find(params[:id])
+    end 
 end
